@@ -37,7 +37,7 @@ available on request.
   deployment. It found and fixed a 500 on a malformed upload, a truncated asset id on the
   overview cards, a CI pipeline that skipped the frontend tests, the types check and the
   database tests, and documentation that had drifted.
-- **Implementation report and user manual (2026-09-21)**: a PDF (`docs/Smart-Grid-Implementation-and-User-Manual.pdf`; 43 pages in v1.1, 41 in v1.2 after S12)
+- **Implementation report and user manual (2026-09-21)**: a PDF (`docs/Smart-Grid-Implementation-and-User-Manual.pdf`; 43 pages in v1.1, 41 in v1.2 after S12, 44 after the S13 documentation refresh)
   with the functional requirements from brief 4.1–4.3 traced to code, architecture, ER, backend class and
   sequence diagrams (no frontend components, at my request), the validation algorithm, API reference and a
   user manual with screenshots taken from a clean, isolated Compose stack. Writing it turned up one gap
@@ -53,6 +53,11 @@ available on request.
   the health check beside a live clock at the end of each page. Vitest is now 112 tests; the 119 top-level Go
   tests (167 subtests) all pass with a real Postgres, none skipped. The PDF was updated afterwards, at my
   separate request (v1.2, 41 pages).
+- **Documentation cleanup and AI journal chapter (S13, 2026-09-22)**: every remaining "GitLab" reference in the
+  docs and the PDF sources was genericised to "CI pipeline"/"CI file", consistent with the pipeline's removal in
+  S12. The PDF gained a new condensed chapter 15 (AI usage journal): tools and effort, how the work was
+  organised, the session timeline, and the suggestions/decisions table, with a pointer back to this file for the
+  full detailed log and representative prompts, which were left out. 44 pages, still version 1.2.
 - **Not delivered**: a CI/CD pipeline or any remote deployment, by design (section 8).
 - **Verified by**: repeated `go test` runs (57, 26 of them with `-race`) against a
   real Postgres, end-to-end runs through Docker Compose with `curl`, and a 37-request
@@ -108,6 +113,7 @@ available on request.
 | S10 side sessions `ba46a1e3` `b96515bd` `31fabcf2` `069b64ae` `6e360f2c` | 21:49–22:05 | One-off requests | Status panel, wider import history, a git question, a CI provider swap that I reverted, centred content |
 | S11 `899d268f` | 22:11 onwards | Closure check and documentation alignment | Four gaps fixed, docs and this journal aligned |
 | S12 (2026-09-21) | 2026-09-21 | Local-only deployment, icons, footer, documentation refresh | CI pipeline removed, `docs/DEPLOYMENT.md`, three new type icons, footer with version and clock, docs revised |
+| S13 (2026-09-22) | 2026-09-22 | Documentation cleanup and AI journal chapter | GitLab references genericised throughout the docs and PDF, new PDF chapter 15 (AI usage journal), 44 pages |
 
 ### 2.3 Detailed log
 
@@ -661,6 +667,20 @@ implemented version; and to re-run everything for me to check before the PDF is 
 - **Documentation corrected**: the README said the PDF has 43 pages and this journal said 45 (it has 43);
   `frontend/README.md` still described one layout route and an import activity page at `/imports`; the
   ARCHITECTURE infra and frontend sections gained the footer, the docs proxy and the no-pipeline note.
+
+### S13 — documentation cleanup and AI journal chapter (2026-09-22)
+
+I asked for every remaining "GitLab" mention in the docs to be genericised (the pipeline itself was already
+removed in S12; only the wording naming the provider was left), and for this journal to be folded into the PDF
+as a new chapter, condensed rather than verbatim, with a pointer back to the full file for what was left out.
+The agent found 18 mentions across `docs/AI_JOURNAL.md` and `docs/ASSUMPTIONS.md`, plus two more in the PDF's
+own `content-3.html`/`content-4.html` sources, and reworded each to "CI pipeline"/"CI file" while keeping the
+decision history intact (a pipeline was written, never run, and removed; a later proposal to swap providers was
+tried and reverted). The new chapter 15 condenses sections 1, 2.1, 2.2 and 4 of this file (tools and effort, how
+the work was organised, the session timeline, and the suggestions/decisions table); the detailed log (2.3) and
+representative prompts (3) were left out as too long for a report chapter. The PDF's cover revision line was
+updated to the new source commit. 44 pages, still version 1.2. Rebuilt with the existing `docs/manual/build.mjs`
+pipeline; no screenshots changed, so no stack was started for this session.
 
 ## 3. Representative prompts
 

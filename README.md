@@ -187,12 +187,12 @@ After changing an endpoint or DTO: `make docs` (backend), then `npm run generate
 (frontend), and commit both generated outputs.
 
 **Implementation report and user manual.** [`docs/Smart-Grid-Implementation-and-User-Manual.pdf`](docs/Smart-Grid-Implementation-and-User-Manual.pdf)
-(41 pages, version 1.2): functional requirements with a traceability matrix, architecture, ER, backend class and sequence
-diagrams, the validation algorithm, API reference, testing, and a step-by-step user manual with
-screenshots. Its sources are in `docs/manual/` (`content-*.html`, Mermaid diagrams in `diagrams/`,
+(44 pages, version 1.2): functional requirements with a traceability matrix, architecture, ER, backend class and sequence
+diagrams, the validation algorithm, API reference, testing, a step-by-step user manual with
+screenshots, and a condensed AI usage journal chapter. Its sources are in `docs/manual/` (`content-*.html`, Mermaid diagrams in `diagrams/`,
 screenshots in `shots/`; that folder is git-ignored, so the sources stay local and only the PDF is committed); rebuild with `cd docs/manual && npm install && node build.mjs` (needs a
 Chromium; set `CHROME=/path/to/chrome` if Playwright's is not installed). `capture-screenshots.mjs`
-retakes the screenshots against an empty stack that you start on other ports, for example `docker compose -p manualshots up --build -d` with `FRONTEND_PORT=18081`, the backend published on 18080 and no host port on the database (the script expects `http://localhost:18081`). Version 1.2 covers the footer, the new type icons, the docs link through nginx and the removal of the CI pipeline.
+retakes the screenshots against an empty stack that you start on other ports, for example `docker compose -p manualshots up --build -d` with `FRONTEND_PORT=18081`, the backend published on 18080 and no host port on the database (the script expects `http://localhost:18081`). Version 1.2 covers the footer, the new type icons, the docs link through nginx, the removal of the CI pipeline, and the AI usage journal chapter.
 
 See `CLAUDE.md` for conventions and non-negotiables,
 [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the full technical
