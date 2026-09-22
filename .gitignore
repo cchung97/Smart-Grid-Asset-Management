@@ -1,0 +1,32 @@
+# Environment
+.env
+.env.*
+!.env.example
+
+# Go
+backend/bin/
+backend/*.log
+
+# Node / Vite
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/*.log
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Internal planning docs — not part of the submission/deliverable
+docs/ACTION_PLAN.md
+
+# Python
+__pycache__/
+*.pyc
+
+# Manual build (docs/manual)
+docs/manual/
+docs/manual/node_modules/
+docs/manual/.build.html

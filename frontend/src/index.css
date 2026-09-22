@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens — the ONLY place colours, radii and the font are defined.
+ * Components use the generated utilities (bg-surface, text-muted, ...) and
+ * never a hex code.
+ *
+ * brand-*: sourced from a reference utility company's live compiled CSS
+ * bundles (frequency-ranked hex values), not guessed; see docs/ASSUMPTIONS.md
+ * "Frontend visual identity".
+ *   - brand-primary: strong navy, ~8.7:1 on white (text and buttons).
+ *   - brand-primary-dark: computed darker hover/active shade.
+ *   - brand-accent: secondary teal, ~2.4:1 on white — decorative only, never text.
+ *
+ * The remaining tokens are neutrals and status colours. Every text/background
+ * pair used by a component was checked against WCAG AA (4.5:1); the measured
+ * ratios are in docs/ASSUMPTIONS.md.
+ *
+ * Spacing is one scale too: 4 / 8 / 12 / 16 / 24 / 32 px (Tailwind 1, 2, 3, 4, 6, 8).
+ * Page gutters px-4 sm:px-6 lg:px-8 (top bar and main; the tree rail uses px-4);
+ * cards and rows p-4, primary panels p-6; gaps 8 / 12 / 16, sections 24.
+ * src/spacing.test.ts fails on any padding, margin, gap or space-x/y off the scale.
+ */
+@theme {
+  --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+
+  --color-brand-primary: #024d87;
+  --color-brand-primary-dark: #013964;
+  --color-brand-accent: #38b7c5;
+  --color-brand-accent-light: #afe7e8;
+  --color-brand-surface: #f7fbff;
+
+  --color-primary: #024d87;
+  --color-primary-hover: #013964;
+  --color-primary-soft: #e3eef8;
+  --color-on-primary: #ffffff;
+
+  --color-surface: #ffffff;
+  --color-surface-muted: #f4f7f9;
+  --color-text: #1a1f24;
+  --color-text-muted: #56626d;
+  --color-border: #dfe5ea;
+  --color-border-strong: #b8c2cb;
+
+  --color-danger: #b3261e;
+  --color-danger-soft: #fce9e7;
+  --color-success: #146c43;
+  --color-success-soft: #e5f4ec;
+  --color-warning: #8a5300;
+  --color-warning-soft: #fdf1d8;
+  --color-neutral-soft: #eceff2;
+  --color-overlay: rgb(0 0 0 / 0.4);
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+
+/*
+ * Dark mode is a token swap: the same names, new values. Nothing else in the app
+ * knows which theme is active (no per-component dark: classes). primary is a light
+ * blue here, so on-primary is dark text on it. Contrast ratios: docs/ASSUMPTIONS.md.
+ * The theme is set on <html data-theme> before first paint (index.html) and by src/state/theme.ts.
+ */
+:root {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-primary: #6cb4f0;
+  --color-primary-hover: #93c9f6;
+  --color-primary-soft: #16324b;
+  --color-on-primary: #06121e;
+
+  --color-surface: #0f1419;
+  --color-surface-muted: #171e26;
+  --color-text: #e8edf2;
+  --color-text-muted: #9ba8b5;
+  --color-border: #2a343e;
+  --color-border-strong: #4a5866;
+
+  --color-danger: #ff8f86;
+  --color-danger-soft: #3d1c1b;
+  --color-success: #62d59d;
+  --color-success-soft: #153725;
+  --color-warning: #f2bc5e;
+  --color-warning-soft: #3d2e10;
+  --color-neutral-soft: #202a34;
+  --color-overlay: rgb(0 0 0 / 0.6);
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  /* The app is a fixed-height shell whose panels scroll themselves: the page itself never scrolls. */
+  #root {
+    overflow: hidden;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+
+  /* Focus rings are never suppressed: keyboard users always see where they are. */
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}

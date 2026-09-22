@@ -1,0 +1,1151 @@
+basePath: /
+definitions:
+  dto.AncestorsResponse:
+    properties:
+      asset_id:
+        example: SWP-001-1-1
+        type: string
+      path:
+        items:
+          $ref: '#/definitions/dto.AssetSummary'
+        type: array
+    required:
+    - asset_id
+    - path
+    type: object
+  dto.AssetDetail:
+    properties:
+      asset_id:
+        example: TX-001-1
+        type: string
+      asset_name:
+        example: Transformer 1
+        type: string
+      asset_type:
+        example: TRANSFORMER
+        type: string
+      commissioned_date:
+        description: CommissionedDate is formatted YYYY-MM-DD.
+        example: "2019-04-30"
+        type: string
+        x-nullable: true
+      created_at:
+        example: "2026-09-20T08:15:00Z"
+        format: date-time
+        type: string
+      manufacturer:
+        example: ABB
+        type: string
+        x-nullable: true
+      model:
+        example: RESIBLOC
+        type: string
+        x-nullable: true
+      operational_status:
+        example: IN_SERVICE
+        type: string
+      parent_asset_id:
+        example: SUB-001
+        type: string
+        x-nullable: true
+      rating_kva:
+        example: 1000
+        type: number
+        x-nullable: true
+      serial_number:
+        example: SN-99812
+        type: string
+        x-nullable: true
+      updated_at:
+        example: "2026-09-20T08:15:00Z"
+        format: date-time
+        type: string
+      voltage_kv:
+        example: 22
+        type: number
+        x-nullable: true
+    required:
+    - asset_id
+    - asset_name
+    - asset_type
+    - commissioned_date
+    - created_at
+    - manufacturer
+    - model
+    - operational_status
+    - parent_asset_id
+    - rating_kva
+    - serial_number
+    - updated_at
+    - voltage_kv
+    type: object
+  dto.AssetListResponse:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/dto.AssetSummary'
+        type: array
+      limit:
+        example: 25
+        type: integer
+      offset:
+        example: 0
+        type: integer
+      total:
+        description: Total is the number of assets matching the filters, across all
+          pages.
+        example: 206
+        type: integer
+    required:
+    - items
+    - limit
+    - offset
+    - total
+    type: object
+  dto.AssetNode:
+    properties:
+      asset_id:
+        example: SWB-001-1
+        type: string
+      asset_name:
+        example: Switchboard 1
+        type: string
+      asset_type:
+        example: SWITCHBOARD
+        type: string
+      child_count:
+        description: ChildCount is the number of immediate children (0 = leaf).
+        example: 4
+        type: integer
+      commissioned_date:
+        example: "2019-04-30"
+        type: string
+        x-nullable: true
+      operational_status:
+        example: IN_SERVICE
+        type: string
+      parent_asset_id:
+        example: SUB-001
+        type: string
+        x-nullable: true
+      rating_kva:
+        description: |-
+          RatingKVA and CommissionedDate let a list of nodes (the children of an
+          asset) be sorted without a request per row. CommissionedDate is YYYY-MM-DD.
+        example: 1000
+        type: number
+        x-nullable: true
+      subtree_count:
+        description: |-
+          SubtreeCount is the number of assets in this asset's subtree,
+          including the asset itself (a leaf has 1).
+        example: 5
+        type: integer
+    required:
+    - asset_id
+    - asset_name
+    - asset_type
+    - child_count
+    - commissioned_date
+    - operational_status
+    - parent_asset_id
+    - rating_kva
+    - subtree_count
+    type: object
+  dto.AssetSummary:
+    properties:
+      asset_id:
+        example: TX-001-1
+        type: string
+      asset_name:
+        example: Transformer 1
+        type: string
+      asset_type:
+        example: TRANSFORMER
+        type: string
+      operational_status:
+        example: IN_SERVICE
+        type: string
+      parent_asset_id:
+        example: SUB-001
+        type: string
+        x-nullable: true
+    required:
+    - asset_id
+    - asset_name
+    - asset_type
+    - operational_status
+    - parent_asset_id
+    type: object
+  dto.ChildGroup:
+    properties:
+      asset_type:
+        example: SWITCHBOARD
+        type: string
+      assets:
+        items:
+          $ref: '#/definitions/dto.AssetNode'
+        type: array
+      count:
+        description: Count is the number of immediate children of this type.
+        example: 2
+        type: integer
+      subtree_count:
+        description: |-
+          SubtreeCount is the combined subtree size of those children
+          (each child counted with its own descendants).
+        example: 9
+        type: integer
+    required:
+    - asset_type
+    - assets
+    - count
+    - subtree_count
+    type: object
+  dto.ChildrenResponse:
+    properties:
+      asset_id:
+        example: SUB-001
+        type: string
+      descendant_counts:
+        items:
+          $ref: '#/definitions/dto.TypeCount'
+        type: array
+      groups:
+        items:
+          $ref: '#/definitions/dto.ChildGroup'
+        type: array
+      total_children:
+        example: 6
+        type: integer
+    required:
+    - asset_id
+    - descendant_counts
+    - groups
+    - total_children
+    type: object
+  dto.ErrorResponse:
+    properties:
+      error:
+        description: |-
+          Error is a human-readable, user-safe message. For 5xx it is generic —
+          internals are only ever written to the server log.
+        example: file "assets.txt" must have a .csv extension
+        type: string
+      line:
+        description: Line is the 1-indexed source line of a structurally malformed
+          CSV, when known.
+        example: 42
+        type: integer
+      trace_id:
+        description: |-
+          TraceID matches the X-Trace-Id response header and the server log lines
+          for this request; quote it when reporting a 5xx.
+        example: 7f6c1a52-3c1e-4a51-9d0b-5b1b2f7a9c11
+        type: string
+    required:
+    - error
+    type: object
+  dto.HealthResponse:
+    properties:
+      db:
+        type: string
+      status:
+        type: string
+    required:
+    - db
+    - status
+    type: object
+  dto.ImportListResponse:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/dto.ImportSummary'
+        type: array
+      limit:
+        example: 25
+        type: integer
+      offset:
+        example: 0
+        type: integer
+      total:
+        example: 3
+        type: integer
+    required:
+    - items
+    - limit
+    - offset
+    - total
+    type: object
+  dto.ImportPreviewResponse:
+    properties:
+      fingerprint:
+        description: |-
+          Fingerprint is a SHA-256 hex digest of the file's cells and of the
+          validation outcome.
+        example: 9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08
+        type: string
+      ignored_columns:
+        description: IgnoredColumns lists header columns the importer does not recognise.
+        example:
+        - legacy_ref
+        - notes
+        items:
+          type: string
+        type: array
+      importable_rows:
+        example: 206
+        type: integer
+      rejected_rows:
+        example: 16
+        type: integer
+      rejections:
+        items:
+          $ref: '#/definitions/dto.Rejection'
+        type: array
+      total_rows:
+        example: 222
+        type: integer
+    required:
+    - fingerprint
+    - ignored_columns
+    - importable_rows
+    - rejected_rows
+    - rejections
+    - total_rows
+    type: object
+  dto.ImportResponse:
+    properties:
+      committed:
+        example: false
+        type: boolean
+      ignored_columns:
+        description: |-
+          IgnoredColumns lists header columns the importer does not recognise;
+          they are skipped (not an error) and not stored.
+        example:
+        - legacy_ref
+        - notes
+        items:
+          type: string
+        type: array
+      import_id:
+        example: 0b5f3c7e-8a52-4a55-9b0e-0c9f8a3f6d11
+        format: uuid
+        type: string
+      imported_rows:
+        example: 0
+        type: integer
+      rejected_rows:
+        example: 8
+        type: integer
+      rejections:
+        items:
+          $ref: '#/definitions/dto.Rejection'
+        type: array
+      total_rows:
+        example: 222
+        type: integer
+    required:
+    - committed
+    - ignored_columns
+    - import_id
+    - imported_rows
+    - rejected_rows
+    - rejections
+    - total_rows
+    type: object
+  dto.ImportSummary:
+    properties:
+      client_ip:
+        example: 203.0.113.7
+        type: string
+      committed:
+        example: true
+        type: boolean
+      created_at:
+        example: "2026-09-20T08:15:00Z"
+        format: date-time
+        type: string
+      filename:
+        example: grid_assets.csv
+        type: string
+      import_id:
+        example: 0b5f3c7e-8a52-4a55-9b0e-0c9f8a3f6d11
+        format: uuid
+        type: string
+      imported_rows:
+        example: 206
+        type: integer
+      rejected_rows:
+        example: 16
+        type: integer
+      total_rows:
+        example: 222
+        type: integer
+    required:
+    - client_ip
+    - committed
+    - created_at
+    - filename
+    - import_id
+    - imported_rows
+    - rejected_rows
+    - total_rows
+    type: object
+  dto.LookupsResponse:
+    properties:
+      asset_types:
+        example:
+        - SUBSTATION
+        - TRANSFORMER
+        items:
+          type: string
+        type: array
+      operational_statuses:
+        example:
+        - IN_SERVICE
+        - MAINTENANCE
+        items:
+          type: string
+        type: array
+      parent_rules:
+        items:
+          $ref: '#/definitions/dto.ParentRule'
+        type: array
+      root_types:
+        description: 'RootTypes are asset types with no parent rule: they must have
+          no parent.'
+        example:
+        - SUBSTATION
+        items:
+          type: string
+        type: array
+    required:
+    - asset_types
+    - operational_statuses
+    - parent_rules
+    - root_types
+    type: object
+  dto.ParentRule:
+    properties:
+      child_type:
+        example: TRANSFORMER
+        type: string
+      parent_type:
+        example: SUBSTATION
+        type: string
+    required:
+    - child_type
+    - parent_type
+    type: object
+  dto.Rejection:
+    properties:
+      asset_id:
+        example: TX-NR
+        type: string
+      csv_row:
+        description: |-
+          CSVRow is the row's original 1-indexed line in the uploaded file
+          (the header is line 1), not its position after any reordering.
+        example: 178
+        type: integer
+      reason:
+        description: Reason holds every problem found on the row, joined with "; ".
+        example: rating_kva cannot be negative (-500)
+        type: string
+    required:
+    - asset_id
+    - csv_row
+    - reason
+    type: object
+  dto.RootsResponse:
+    properties:
+      roots:
+        items:
+          $ref: '#/definitions/dto.AssetNode'
+        type: array
+      total:
+        example: 13
+        type: integer
+    required:
+    - roots
+    - total
+    type: object
+  dto.SearchResponse:
+    properties:
+      count:
+        example: 2
+        type: integer
+      query:
+        example: tx-001
+        type: string
+      results:
+        items:
+          $ref: '#/definitions/dto.AssetSummary'
+        type: array
+      truncated:
+        description: Truncated is true when more assets matched than limit allowed.
+        example: false
+        type: boolean
+      type:
+        description: Type echoes the applied asset_type filter ("" = none).
+        example: TRANSFORMER
+        type: string
+    required:
+    - count
+    - query
+    - results
+    - truncated
+    - type
+    type: object
+  dto.StatsResponse:
+    properties:
+      by_status:
+        items:
+          $ref: '#/definitions/dto.StatusCount'
+        type: array
+      by_type:
+        items:
+          $ref: '#/definitions/dto.TypeCount'
+        type: array
+      total:
+        example: 206
+        type: integer
+    required:
+    - by_status
+    - by_type
+    - total
+    type: object
+  dto.StatusCount:
+    properties:
+      count:
+        example: 146
+        type: integer
+      operational_status:
+        example: IN_SERVICE
+        type: string
+    required:
+    - count
+    - operational_status
+    type: object
+  dto.TypeCount:
+    properties:
+      asset_type:
+        example: TRANSFORMER
+        type: string
+      count:
+        example: 3
+        type: integer
+    required:
+    - asset_type
+    - count
+    type: object
+info:
+  contact: {}
+  description: CSV asset import/validation and asset hierarchy explorer API.
+  title: Smart Grid Asset Management API
+  version: "1.0"
+paths:
+  /api/assets:
+    get:
+      description: One page of every stored asset, ordered by asset id unless `sort`
+        says otherwise, optionally filtered by text (case-insensitive substring of
+        the id or name), asset type and operational status. `total` counts all matches
+        across pages.
+      parameters:
+      - description: Text to look for in the asset id or name
+        in: query
+        maxLength: 200
+        name: q
+        type: string
+      - description: Only assets of this type (see GET /api/lookups)
+        in: query
+        name: type
+        type: string
+      - description: Only assets in this operational status (see GET /api/lookups)
+        in: query
+        name: status
+        type: string
+      - default: asset_id
+        description: Column to order by; ties and the default are by asset id. Assets
+          with no parent sort last.
+        enum:
+        - asset_id
+        - name
+        - type
+        - status
+        - parent
+        in: query
+        name: sort
+        type: string
+      - default: asc
+        description: Sort direction
+        enum:
+        - asc
+        - desc
+        in: query
+        name: dir
+        type: string
+      - default: 25
+        description: Page size
+        in: query
+        maximum: 200
+        minimum: 1
+        name: limit
+        type: integer
+      - default: 0
+        description: Rows to skip
+        in: query
+        minimum: 0
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.AssetListResponse'
+        "400":
+          description: Unknown type, status or sort, or bad dir/limit/offset
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "401":
+          description: Missing or invalid x-api-key
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: List all assets
+      tags:
+      - assets
+  /api/assets/{assetId}:
+    delete:
+      description: Removes an asset that has no children. An asset that still has
+        children is refused with 409 and must have them deleted first. See docs/KNOWN_LIMITATIONS.md.
+      parameters:
+      - description: Asset id
+        example: TX-001-1
+        in: path
+        name: assetId
+        required: true
+        type: string
+      responses:
+        "204":
+          description: Deleted
+        "401":
+          description: Missing or invalid x-api-key
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "403":
+          description: No API key is configured on the server, so the API is disabled
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: No such asset
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "409":
+          description: The asset has children, or another writer collided with the
+            delete
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete one asset
+      tags:
+      - assets
+    get:
+      description: Every stored attribute of the asset.
+      parameters:
+      - description: Asset id
+        example: TX-001-1
+        in: path
+        name: assetId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.AssetDetail'
+        "401":
+          description: Missing or invalid x-api-key
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: No such asset
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get one asset
+      tags:
+      - assets
+  /api/assets/{assetId}/ancestors:
+    get:
+      description: The path from the top of the hierarchy down to the asset, in that
+        order; the asset itself is the last element. Use it to expand a tree to a
+        search hit.
+      parameters:
+      - description: Asset id
+        example: SWP-001-1-1
+        in: path
+        name: assetId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.AncestorsResponse'
+        "401":
+          description: Missing or invalid x-api-key
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: No such asset
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get an asset's ancestor path
+      tags:
+      - assets
+  /api/assets/{assetId}/children:
+    get:
+      description: 'The asset''s immediate children grouped by asset type (each with
+        `child_count` and `subtree_count`), plus `descendant_counts`: how many descendants
+        of each type sit anywhere beneath the asset. An asset with no children returns
+        empty lists.'
+      parameters:
+      - description: Asset id
+        example: SUB-001
+        in: path
+        name: assetId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ChildrenResponse'
+        "401":
+          description: Missing or invalid x-api-key
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: No such asset
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: List an asset's children
+      tags:
+      - assets
+  /api/assets/roots:
+    get:
+      description: Every asset that has no parent (substations), each with `child_count`
+        and `subtree_count` so a tree can render expanders without further requests.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.RootsResponse'
+        "401":
+          description: Missing or invalid x-api-key
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: List top-level assets
+      tags:
+      - assets
+  /api/assets/search:
+    get:
+      description: Case-insensitive substring match on asset id or name, optionally
+        restricted to one asset type. Exact id matches come first, then id prefixes.
+        `%` and `_` in `q` are matched literally. Results are capped at `limit`; `truncated`
+        says whether more matched.
+      parameters:
+      - description: Text to look for in the asset id or name
+        in: query
+        maxLength: 200
+        minLength: 1
+        name: q
+        required: true
+        type: string
+      - description: Only assets of this type (see GET /api/lookups)
+        in: query
+        name: type
+        type: string
+      - default: 50
+        description: Maximum results
+        in: query
+        maximum: 200
+        minimum: 1
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SearchResponse'
+        "400":
+          description: Missing q, unknown type, or bad limit
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "401":
+          description: Missing or invalid x-api-key
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Search assets
+      tags:
+      - assets
+  /api/assets/stats:
+    get:
+      description: The total number of stored assets and how many there are of each
+        asset type and each operational status. Types and statuses with no assets
+        are omitted.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.StatsResponse'
+        "401":
+          description: Missing or invalid x-api-key
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Count assets by type and status
+      tags:
+      - assets
+  /api/imports:
+    get:
+      description: 'One page of import activity, newest first: file name, client IP,
+        row counts and whether data was committed. Imports only — deletions are not
+        listed. Fetch `GET /api/imports/{importId}` for a run''s rejected rows.'
+      parameters:
+      - default: 25
+        description: Page size
+        in: query
+        maximum: 100
+        minimum: 1
+        name: limit
+        type: integer
+      - default: 0
+        description: Rows to skip
+        in: query
+        minimum: 0
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ImportListResponse'
+        "400":
+          description: Bad limit or offset
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "401":
+          description: Missing or invalid x-api-key
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: List past imports
+      tags:
+      - imports
+    post:
+      consumes:
+      - multipart/form-data
+      description: |-
+        Uploads a CSV of grid assets, validates every row again, and stores the rows that pass in one transaction. Rejected rows, and any row beneath a rejected parent, are skipped and reported; rows whose `asset_id` already exists are rejected, never updated. `committed` is true when at least one row was stored.
+
+        To let a user review the outcome first, call `POST /api/imports/preview` and send its `fingerprint` here as `expected_fingerprint`: if the file or the stored data changed since, nothing is written and the response is **412**. Without `expected_fingerprint` the rows that pass are stored directly.
+
+        **Columns are matched by header name**, in any order (case, spaces, `-` and `_` are ignored: `Asset ID` = `asset_id`). Required: `asset_id`, `asset_type`, `asset_name`, `operational_status`. Optional (may be absent from the file or blank): `parent_asset_id`, `voltage_kv`, `rating_kva`, `manufacturer`, `model`, `serial_number`, `commissioned_date` (`YYYY-MM-DD`, `D/M/YYYY` or `D/M/YY`, day first). Unknown columns are ignored and listed in `ignored_columns`. Allowed asset types, statuses and parent/child pairings are read from the database — see `GET /api/lookups`.
+
+        A file that is readable but has bad rows returns **200** with `rejections[]`; `csv_row` is the row's line in the uploaded file (header = line 1). A file that cannot be processed at all (not CSV, empty, required column missing) returns a 4xx `ErrorResponse` instead.
+      parameters:
+      - description: CSV file with a header row
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Fingerprint from POST /api/imports/preview for this file
+        in: formData
+        name: expected_fingerprint
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Import outcome — check `committed`, `imported_rows` and `rejections`
+          schema:
+            $ref: '#/definitions/dto.ImportResponse'
+        "400":
+          description: No file supplied, or the file is empty / has no data rows
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "401":
+          description: Missing or invalid x-api-key
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "409":
+          description: Another writer changed the stored data during the commit; nothing
+            was stored, retry
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "412":
+          description: expected_fingerprint no longer matches; nothing was stored,
+            preview again
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "413":
+          description: File larger than the configured upload limit
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "415":
+          description: File does not have a .csv extension
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "422":
+          description: Malformed CSV (see `line`), or the header lacks a required
+            column
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "429":
+          description: Rate limit exceeded
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Unexpected error; quote `trace_id` when reporting
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Import assets from a CSV file
+      tags:
+      - imports
+  /api/imports/{importId}:
+    get:
+      description: Re-fetches the result of an earlier import, including every rejected
+        row. `ignored_columns` is only reported on the upload response and is empty
+        here.
+      parameters:
+      - description: Import id (UUID) from POST /api/imports
+        format: uuid
+        in: path
+        name: importId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ImportResponse'
+        "400":
+          description: importId is not a UUID
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "401":
+          description: Missing or invalid x-api-key
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: No such import
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get a past import
+      tags:
+      - imports
+  /api/imports/preview:
+    post:
+      consumes:
+      - multipart/form-data
+      description: |-
+        Validates the file exactly as `POST /api/imports` would and reports how many rows can be imported and which are rejected and why, **without storing anything** (no assets, no import record). Show this to the user, then confirm by sending the same file to `POST /api/imports` with `expected_fingerprint` set to the `fingerprint` returned here.
+
+        Column rules, date formats (`YYYY-MM-DD`, `D/M/YYYY`, `D/M/YY`, day first) and structural errors are the same as for the import.
+      parameters:
+      - description: CSV file with a header row
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Validation outcome; nothing was stored
+          schema:
+            $ref: '#/definitions/dto.ImportPreviewResponse'
+        "400":
+          description: No file supplied, or the file is empty / has no data rows
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "401":
+          description: Missing or invalid x-api-key
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "413":
+          description: File larger than the configured upload limit
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "415":
+          description: File does not have a .csv extension
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "422":
+          description: Malformed CSV (see `line`), or the header lacks a required
+            column
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "429":
+          description: Rate limit exceeded
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Unexpected error; quote `trace_id` when reporting
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Check a CSV file without importing it
+      tags:
+      - imports
+  /api/imports/template:
+    get:
+      description: A CSV with every importable column in its header and a few fictional
+        example rows (a small valid hierarchy) showing how parents, dates and statuses
+        are written. Delete the example rows before importing your own data.
+      produces:
+      - text/csv
+      responses:
+        "200":
+          description: asset_import_template.csv
+          schema:
+            type: file
+        "401":
+          description: Missing or invalid x-api-key
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Download the import template
+      tags:
+      - imports
+  /api/lookups:
+    get:
+      description: The asset types, operational statuses and parent/child type pairings
+        that imports are validated against, read from the database (refreshed on startup
+        and on every import). Use it to build filters and dropdowns instead of hardcoding
+        values.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LookupsResponse'
+        "401":
+          description: Missing or invalid x-api-key
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: List reference data
+      tags:
+      - lookups
+  /healthz:
+    get:
+      description: Returns service liveness and DB connectivity status.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.HealthResponse'
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/dto.HealthResponse'
+      summary: Health check
+      tags:
+      - health
+schemes:
+- http
+securityDefinitions:
+  ApiKeyAuth:
+    description: API key (see API_KEY in .env). Required by every /api endpoint (sent
+      as the x-api-key header). Only /healthz and these docs are open. This is a shared
+      key, not user authentication (see ARCHITECTURE.md).
+    in: header
+    name: x-api-key
+    type: apiKey
+swagger: "2.0"
