@@ -1,0 +1,2 @@
+asset_id,parent_asset_id,asset_type,asset_name,voltage_kv,rating_kva,manufacturer,model,serial_number,commissioned_date
+SS-MISSINGCOL-1,,SUBSTATION,Missing Column Substation,33,,,,SUB-MISSCOL1,1/1/2020

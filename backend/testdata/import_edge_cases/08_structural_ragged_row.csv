@@ -1,0 +1,4 @@
+asset_id,parent_asset_id,asset_type,asset_name,operational_status,voltage_kv,rating_kva,manufacturer,model,serial_number,commissioned_date
+SS-RAGGED-1,,SUBSTATION,Ragged Test Substation,IN_SERVICE,33,,,,SUB-RAGGED1,1/1/2020
+TX-RAGGED-SHORT,SS-RAGGED-1,TRANSFORMER,Too Few Fields,IN_SERVICE,11,500
+TX-RAGGED-UNQUOTED,SS-RAGGED-1,TRANSFORMER,Comma, In Name Field,IN_SERVICE,11,500,Arcwell Industries,TXR-500,SN-RAG1,1/1/2020

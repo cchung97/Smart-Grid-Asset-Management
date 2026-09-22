@@ -1,0 +1,5 @@
+﻿asset_id,parent_asset_id,asset_type,asset_name,operational_status,voltage_kv,rating_kva,manufacturer,model,serial_number,commissioned_date
+SS-MESSY-1,,SUBSTATION,"  Messy   Substation  ",IN_SERVICE,33,,"  Arcwell Industries  ",,SUB-MESSY1,1/1/2020
+TX-MESSY-MULTILINE,SS-MESSY-1,TRANSFORMER,"Transformer
+with an embedded newline",IN_SERVICE,11,500,Arcwell Industries,TXR-500,SN-MESSY1,1/1/2020
+TX-MESSY-OK,SS-MESSY-1,TRANSFORMER,Trailing Whitespace Row,IN_SERVICE,11,500,Arcwell Industries,TXR-500,SN-MESSY2,1/1/2020

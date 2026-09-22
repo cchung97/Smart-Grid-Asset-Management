@@ -1,0 +1,5 @@
+asset_id,parent_asset_id,asset_type,asset_name,operational_status,voltage_kv,rating_kva,manufacturer,model,serial_number,commissioned_date
+SS-LOOKUP-1,,substation,Lowercase Type Should Normalize,in_service,33,,,,SUB-LOOK1,1/1/2020
+TX-LOOKUP-MIXEDCASE,SS-LOOKUP-1,Transformer,Mixed Case Should Normalize,Maintenance,11,500,Arcwell Industries,TXR-500,SN-LOOK3,1/1/2020
+TX-LOOKUP-BADTYPE,SS-LOOKUP-1,GENERATOR,Unknown Asset Type,IN_SERVICE,11,500,Arcwell Industries,TXR-500,SN-LOOK1,1/1/2020
+TX-LOOKUP-BADSTATUS,SS-LOOKUP-1,TRANSFORMER,Unknown Status,ACTIVE,11,500,Arcwell Industries,TXR-500,SN-LOOK2,1/1/2020

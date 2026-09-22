@@ -1,0 +1,3 @@
+asset_id,parent_asset_id,asset_type,asset_name,operational_status,voltage_kv,rating_kva,manufacturer,model,serial_number,commissioned_date
+SS-001,,SUBSTATION,Duplicate Of Existing Asset,IN_SERVICE,22,,,,SUB-DUPEXIST,1/1/2020
+SS-EXIST-NEW,,SUBSTATION,Brand New Substation,IN_SERVICE,33,,,,SUB-EXISTNEW,1/1/2020
